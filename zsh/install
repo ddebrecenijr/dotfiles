@@ -1,0 +1,4 @@
+binary_exists zsh
+
+echo "|-- Restoring zsh Symlinks"
+create_symlink zsh/zshrc    $HOME/.zshrc
