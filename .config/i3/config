@@ -158,6 +158,7 @@ mode "resize" {
 }
 
 bindsym Mod1+r mode "resize"
+bindsym $mod+l exec i3lock -i ~/Pictures/chicago.jpg
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -170,11 +171,26 @@ bar {
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
+# - Audio
+bindsym XF86AudioMute 		exec amixer -q set Master toggle 	 
+bindsym XF86AudioLowerVolume 	exec amixer -q set Master 5%-
+bindsym XF86AudioRaiseVolume 	exec amixer -q set Master 5%+
+bindsym XF86AudioNext 		exec playerctl next
+bindsym XF86AudioPrev 		exec playerctl previous
+bindsym XF86AudioPlay 		exec playerctl play-pause
+
+# - TrackPad
+exec_always "xinput set-prop 'DELL07E6:00 06CB:76AF Touchpad' 'libinput Tapping Enabled' 1"
+exec_always "xinput set-prop 'DELL07E6:00 06CB:76AF Touchpad' 'libinput Natural Scrolling Enabled' 1"
+exec_always "xinput set-prop 'DELL07E6:00 06CB:76AF Touchpad' 'libinput Disable While Typing Enabled' 0"
+exec_always "xinput set-prop 'DELL07E6:00 06CB:76AF Touchpad' 'libinput Accel Speed' 0.4"
+exec_always "xinput set-prop 'DELL07E6:00 06CB:76AF Touchpad' 'libinput Click Method' 'clickfinger'"
+
 # DPI
-exec_always --no-startup-id xrandr --dpi 180
+#exec_always --no-startup-id xrandr --dpi 180
 
 # Compositor
-exec compton -b --config ~/.compton.conf
+#exec compton -b --config ~/.compton.conf
 
 # Wallpaper
-exec feh --bg-scale ~/Pictures/got-wall.png
+#exec feh --bg-scale ~/Pictures/got-wall.png
