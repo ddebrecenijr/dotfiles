@@ -193,7 +193,7 @@ exec_always "xinput set-prop 'DELL07E6:00 06CB:76AF Touchpad' 'libinput Click Me
 #exec_always --no-startup-id xrandr --dpi 180
 
 # Compositor
-#exec compton -b --config ~/.compton.conf
+exec_always --no-startup-id "compton --config ~/.compton.conf"
 
 # Wallpaper
-#exec feh --bg-scale ~/Pictures/got-wall.png
+exec_always --no-startup-id "feh --bg-scale ~/Pictures/got_wall.png"
