@@ -26,7 +26,7 @@ foreground = #c5a9f9
 border-color = 0
 
 ;-- Modules --;
-module-margin = 2 
+module-margin = 1 
 modules-left = date volume cpu memory
 modules-center = i3
 modules-right = wlan network battery time
