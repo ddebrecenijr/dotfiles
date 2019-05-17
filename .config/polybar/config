@@ -27,9 +27,9 @@ border-color = 0
 
 ;-- Modules --;
 module-margin = 1 
-modules-left = date volume cpu memory
+modules-left = cpu memory date 
 modules-center = i3
-modules-right = wlan network battery time
+modules-right = wlan volume battery time
 
 [module/i3]
 type = internal/i3
