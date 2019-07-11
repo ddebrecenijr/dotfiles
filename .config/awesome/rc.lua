@@ -45,10 +45,10 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
-
+beautiful.init("~/.config/awesome/theme.lua")
+beautiful.get().wallpaper="~/.config/awesome/background.png"
 -- This is used later as the default terminal and editor to run.
-terminal = "xterm"
+terminal = "termite"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -157,7 +157,7 @@ local function set_wallpaper(s)
         if type(wallpaper) == "function" then
             wallpaper = wallpaper(s)
         end
-        gears.wallpaper.maximized(wallpaper, s, true)
+        awful.spawn.with_shell("feh --bg-fill " .. wallpaper)
     end
 end
 
