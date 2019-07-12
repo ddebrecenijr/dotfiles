@@ -1,21 +1,18 @@
--- If LuaRocks is installed, make sure that packages installed through it are
--- found (e.g. lgi). If LuaRocks is not installed, do nothing.
-pcall(require, "luarocks.loader")
+-- Theme Handling Library
+local beautiful = require("beautiful")
 
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
+
 -- Widget and layout library
 local wibox = require("wibox")
--- Theme handling library
-local beautiful = require("beautiful")
+
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
--- Enable hotkeys help widget for VIM and other apps
--- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
 -- {{{ Error handling
@@ -63,17 +60,17 @@ modkey = "Mod4"
 awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
+    -- awful.layout.suit.tile.left,
+    -- awful.layout.suit.tile.bottom,
+    -- awful.layout.suit.tile.top,
+    -- awful.layout.suit.fair,
+    -- awful.layout.suit.fair.horizontal,
+    -- awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
-    awful.layout.suit.corner.nw,
+    -- awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.magnifier,
+    -- awful.layout.suit.corner.nw,
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
@@ -94,7 +91,8 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                     { "open terminal", terminal }
                                   }
                         })
-
+praisewidget = wibox.widget.textbox()
+praisewidget.text = "You are great!"
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
 
@@ -169,7 +167,63 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+
+    local layout = awful.layout.suit
+    local layouts = {
+        layout.tile,
+        layout.max,
+        layout.tile,
+        layout.max,
+        layout.max,
+        layout.max,
+        layout.max,
+        layout.max,
+        layout.max,
+        layout.max
+    }
+
+
+    local tagnames = beautiful.tagnames or { "", "", "", "", "5", "6", "7", "8", "" }
+
+    awful.tag.add(tagnames[1], {
+        layout = layouts[1],
+        screen = s,
+        selected = true,
+    })
+    awful.tag.add(tagnames[2], {
+        layout = layouts[2],
+        screen = s
+    })
+    awful.tag.add(tagnames[3], {
+        layout = layouts[3],
+        screen = s
+    })
+    awful.tag.add(tagnames[4], {
+        layout = layouts[4],
+        screen = s,
+        master_width_factor = 0.65
+    })
+    awful.tag.add(tagnames[5], {
+        layout = layouts[5],
+        screen = s
+    })
+    awful.tag.add(tagnames[6], {
+        layout = layouts[6],
+        screen = s
+    })
+    awful.tag.add(tagnames[7], {
+        layout = layouts[7],
+        screen = s
+    })
+    awful.tag.add(tagnames[8], {
+        layout = layouts[8],
+        screen = s
+    })
+    awful.tag.add(tagnames[9], {
+        layout = layouts[9],
+        screen = s,
+        master_width_factor = 0.65
+    })
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -204,6 +258,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             mylauncher,
+            praisewidget,
             s.mytaglist,
             s.mypromptbox,
         },
