@@ -1,31 +1,203 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" AUTHOR: Dave Debreceni Jr
-" UPDATED: 2019/04/27
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" Dave Debreceni
+" davidjr@debreceni.net
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
-syntax on
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set autoread
-set wildmenu
-set laststatus=2
-set splitright
-set splitbelow
-set lazyredraw
-set nowrap
-set ttyfast
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set number
-set scrolloff=5
-set sidescrolloff=10
+call plug#begin('~/vim/plugged')
+Plug 'junegunn/goyo.vim'
+Plug 'PotatoesMaster/i3-vim-syntax'
+Plug 'junegunn/fzf.vim'
+Plug 'itchyny/lightline.vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdtree'
+Plug 'w0rp/ale'
+Plug 'airblade/vim-gitgutter'
+call plug#end()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 set history=500
-set ignorecase smartcase
-set incsearch
-set timeoutlen=1000 ttimeoutlen=0
-set showcmd
+set nocompatible
+filetype plugin on
+filetype indent on
+set autoread
+syntax on
+set encoding=utf-8
+set number relativenumber
+set wildmode=longest,list,full
+let mapleader = ","
 
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echo "Use j"<CR>
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Vim User Interface
+""""""""""""""""""""""""""""""""""""""""""""""""""
+set wildmenu
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+	set wildignore+=.git\*,.hg\*,.svn\*
+else
+	set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
+
+set ruler
+set cmdheight=1
+set hid
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+set lazyredraw
+set magic
+set showmatch
+set mat=2
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+set foldcolumn=1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Files, Backups, and Undo
+""""""""""""""""""""""""""""""""""""""""""""""""""
+set nobackup
+set nowb
+set noswapfile
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Text, Tab, and Indent Related
+""""""""""""""""""""""""""""""""""""""""""""""""""
+set expandtab
+set smarttab
+set shiftwidth=4
+set tabstop=4
+set lbr
+set tw=500
+set ai
+set si
+set wrap
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Tabs, Windows, and Buffers
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Fix splitting
+set splitbelow splitright
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+map <leader>bd :Bclose<cr>:tabclose<cr>gT
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+map <leader>t<leader> :tabnext
+let g:lasttab = 1
+nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+try
+  set switchbuf=useopen,usetab,newtab
+  set stal=2
+catch
+endtry
+
+" Return to last edit position when opening files
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Status line
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Lightline settings
+set laststatus=2
+let g:lightline = {
+    \ 'colorscheme': 'darcula',
+    \ }
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Editting mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""
+map 0 ^
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+" Delete trailing white space on save
+fun! CleanExtraSpaces()
+    let save_cursor = getpos(".")
+    let old_query = getreg('/')
+    silent! %s/\s\+$/ee
+    call setpos('.', save_cursor)
+    call setreg('/', old_query)
+endfun
+if has("autocmd")
+    autocmd BufWritePre *.txt, *.c, *.py, *.cs, *.sh :call CleanExtraSpaces()
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Helper Functions
+""""""""""""""""""""""""""""""""""""""""""""""""""
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    endif
+    return ''
+endfunction
+
+command! Bclose call <SID>BufcloseCloseit()
+function! <SID>BufcloseCloseIt()
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
+
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
+
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
+
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
+    endif
+endfunction
+
+function! CmdLine(str)
+    call feedkeys(":" . a:str)
+endfunction
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'gv'
+        call CmdLine("Ack '" . l:pattern . "' ")
+    elseif a:direction =='replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => NERDTree
+""""""""""""""""""""""""""""""""""""""""""""""""""
+map <C-o> :NERDTreeToggle<CR>
