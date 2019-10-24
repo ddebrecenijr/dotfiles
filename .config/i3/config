@@ -5,8 +5,8 @@
 ### --- Basic --- ###
 for_window [class="^.*"] border none
 new_window pixel 2
-gaps inner 6
-smart_borders no_gaps
+gaps outer 10
+gaps inner 10
 
 set $sup Mod4
 set $alt Mod1
@@ -15,7 +15,23 @@ set $down j
 set $up k
 set $right l
 
-font pango:Hack 10
+font pango:Noto Sans 14
+
+### --- Autostarts --- ###
+# DPI
+exec_always --no-startup-id "xrandr --dpi 192"
+
+# Compositor
+exec_always --no-startup-id "compton -b --respect-prop-shadow"
+
+# Wallpaper
+exec_always --no-startup-id "feh --bg-scale ~/.config/i3/background.png"
+
+# Terminal Colors
+exec_always --no-startup-id "wal -i ~/.config/i3/background.png"
+
+# Bar
+exec_always --no-startup-id "killall polybar -q && polybar -c ~/.config/polybar/config main -r"
 
 # use Mouse+Mod1 to drag floating windows to their wanted position
 floating_modifier $alt
@@ -23,10 +39,13 @@ floating_modifier $alt
 # start a terminal
 bindsym $sup+Return exec termite
 
+# Start firefox
+bindsym $sup+Shift+f exec firefox
+
 # kill focused window
 bindsym $sup+Shift+q kill
 
-bindsym $sup+d exec --no-startup-id i3-dmenu-desktop
+bindsym $sup+d exec --no-startup-id rofi -show run
 
 # change focus
 bindsym $alt+$left focus left
@@ -78,7 +97,7 @@ set $ws2 
 set $ws3 
 set $ws4 
 set $ws5 
-set $ws6
+set $ws6 
 set $ws7
 set $ws8
 set $ws9
@@ -144,8 +163,8 @@ mode "resize" {
 bindsym $alt+r mode "resize"
 #bindsym $mod+l exec i3lock -i ~/Pictures/chicago.png
 
-# Bar
-exec_always --no-startup-id "killall -q polybar; polybar transparent"
+
+
 
 ### --- Dell XPS 13 9370 Settings --- ###
 # - Backlight
@@ -166,15 +185,3 @@ exec_always "xinput set-prop 'DELL07E6:00 06CB:76AF Touchpad' 'libinput Natural 
 exec_always "xinput set-prop 'DELL07E6:00 06CB:76AF Touchpad' 'libinput Disable While Typing Enabled' 1"
 exec_always "xinput set-prop 'DELL07E6:00 06CB:76AF Touchpad' 'libinput Accel Speed' 0.4"
 exec_always "xinput set-prop 'DELL07E6:00 06CB:76AF Touchpad' 'libinput Click Method' 'clickfinger'"
-
-# DPI
-exec_always --no-startup-id "xrandr --dpi 180"
-
-# Compositor
-exec_always --no-startup-id "compton --config ~/.compton.conf"
-
-# Wallpaper
-exec_always --no-startup-id "feh --bg-scale ~/.config/i3/background.png"
-
-# Terminal Colors
-exec_always --no-startup-id "wal -i ~/.config/i3/background.png"
