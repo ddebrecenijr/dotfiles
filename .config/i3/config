@@ -168,8 +168,8 @@ bindsym $alt+r mode "resize"
 
 ### --- Dell XPS 13 9370 Settings --- ###
 # - Backlight
-bindsym XF86MonBrightnessUp exec light -A 5
-bindsym XF86MonBrightnessDown exec light -U 5
+bindsym XF86MonBrightnessUp exec xbacklight -inc 5
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5
 
 # - Audio
 bindsym XF86AudioMute 		exec amixer -q set Master toggle 	 
