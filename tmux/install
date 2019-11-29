@@ -1,4 +1,0 @@
-binary_exists tmux
-
-echo "|-- Restoring tmux Symlinks"
-create_symlink tmux/tmux.conf    $HOME/.tmux.conf
