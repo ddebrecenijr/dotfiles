@@ -12,7 +12,7 @@ padding-right = 2
 
 ;-- Location --;
 bottom = false
-monitor = eDP-1
+monitor = eDP1
 
 ;-- Font --;
 font-0 = Hack:size=22;3
