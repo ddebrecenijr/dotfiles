@@ -32,8 +32,12 @@ bindsym $mod+d exec rofi -show drun
 
 # Audio
 bindsym XF86AudioMute           exec amixer sset Master toggle
-bindsym XF86AudioLowerVolume    exec amxier sset Master 5%-
+bindsym XF86AudioLowerVolume    exec amixer sset Master 5%-
 bindsym XF86AudioRaiseVolume    exec amixer sset Master 5%+
+
+# Brightness
+bindsym XF86MonBrightnessUp     exec xbacklight -inc 5
+bindsym XF86MonBrightnessDown   exec xbacklight -dec 5
 
 # change focus
 bindsym $mod+h focus left
