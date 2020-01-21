@@ -70,6 +70,7 @@ HYPHEN_INSENSITIVE="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     archlinux
+    extract
     git
     git-prompt
     history-substring-search
