@@ -1,0 +1,4 @@
+if [! -d "$HOME/.config/rofi" ]; then
+    mkdir -p $HOME/.config/rofi
+
+create_symlink rofi/config.rasi $HOME/.config/rofi/config.rasi  

@@ -4,49 +4,36 @@
 export DOTFILES
 DOTFILES="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# update repo
+[ -d "$DOTFILES/.git" ] && git --work-tree="$DOTFILES" --git-dir="$DOTFILES/.git" pull origin feature/work-setup
+
 # Helpers
-function sudo_permissions {
-    groups | grep sudo > /dev/null 2>&1
-    if [ $? == 0 ]; then
-        return 0
-    else
-	return 1
-    fi
-}
-
-function binary_exists {
-    command -v $1 > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-	echo "|-- ERROR: $1 is not Installed!"
-        return 1
-    else
-	return 0
-    fi
-}
-
-function create_symlink {
-	local source=$1
-	local target=$2
-
-	source=$(realpath $DOTFILES/$source)
-
-	echo "|-- Creating Symlink: $source -> $target"
-
-	ln -sfv "$source" "$target" > /dev/null 2>&1
-	if [ $? -ne 0 ]; then
-		return 1
-	else
-		return 0
-	fi
-}
+source $DOTFILES/helpers.sh
 
 if [ ! have_permissions ]; then
     echo "ERROR - No sudo privelege"
 fi
 
-echo "########## INSTALLING ##########"
-for installer in $DOTFILES/*/install
-do
-    echo "|# Installing: ${installer#$DOTFILES/install}"
-    source $installer
-done
+if [ "$#" -eq 0 ]
+then
+    echo "########## INSTALLING ##########"
+    for INSTALLER in $DOTFILES/*/install
+    do
+        run_installer $INSTALLER
+        source $INSTALLER
+    done
+else
+    for prog in $@
+    do
+        INSTALLER=$DOTFILES/$prog/install
+        if [ -e $INSTALLER ]
+        then
+            run_installer $INSTALLER
+            source $INSTALLER
+        else
+            log_error "Invalid Installer specified: $prog"
+        fi
+    done
+fi
+
+report_errors

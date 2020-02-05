@@ -1,0 +1,4 @@
+if [! -d "$HOME/.config/termite" ]; then
+    mkdir -p $HOME/.config/termite
+
+create_symlink termite/config   $HOME/.config/termite/config

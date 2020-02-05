@@ -1,0 +1,6 @@
+if [! -d "$HOME/.config/polybar" ]; then
+    mkdir -p $HOME/.config/polybar
+
+create_symlink polybar/config.ini   $HOME/.config/polybar/config.ini
+create_symlink polybar/modules.ini  $HOME/.config/polybar/modules.ini
+create_symlink polybar/launch.sh    $HOME/.config/polybar/launch.sh
