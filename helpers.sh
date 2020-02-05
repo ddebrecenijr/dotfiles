@@ -15,7 +15,7 @@ function run_installer {
 
 function log_error {
     local MSG=$1
-    ERRORS=$"${ERRORS[@]}" "- $MSG")
+    ERRORS=$("${ERRORS[@]}" "- $MSG")
 }
 
 function report_errors {

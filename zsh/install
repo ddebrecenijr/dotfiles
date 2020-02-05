@@ -1,1 +1,3 @@
-install_symlink zsh/zshrc $HOME/.zshrc
+# vim:syntax=sh:
+
+create_symlink  zsh/zshrc $HOME/.zshrc

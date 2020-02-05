@@ -1,5 +1,8 @@
-if [! -d "$HOME/.config/polybar" ]; then
+# vim:syntax=sh:
+
+if [ ! -d "$HOME/.config/polybar" ]; then
     mkdir -p $HOME/.config/polybar
+fi
 
 create_symlink polybar/config.ini   $HOME/.config/polybar/config.ini
 create_symlink polybar/modules.ini  $HOME/.config/polybar/modules.ini

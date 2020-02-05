@@ -1,4 +1,3 @@
-binary_exists vim
+# vim:syntax=sh:
 
-echo "|-- Restoring vim Symlinks"
 create_symlink vim/vimrc    $HOME/.vimrc

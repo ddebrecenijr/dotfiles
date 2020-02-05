@@ -1,4 +1,7 @@
-binary_exists i3
+# vim:syntax=sh:
 
-echo "|-- Restoring i3 Symlinks"
-create_symlink  config  $HOME/.config/i3/config
+if [ ! -d "$HOME/.config/i3" ]; then
+    mkdir -p $HOME/.config/i3
+fi
+
+create_symlink i3/config   $HOME/.config/i3/config
