@@ -45,7 +45,7 @@ show-icons: true;
 hide-scrollbar: true;
 /*	fullscreen: false;*/
 fake-transparency: false;
-dpi: 192;
+/*  dpi: 192; */
 /*	threads: 0;*/
 /*	scrollbar-width: 8;*/
 /*	scroll-method: 0;*/

@@ -163,4 +163,4 @@ bindsym $mod+r mode "resize"
 ### --- Execs --- ###
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh &
 exec_always --no-startup-id $HOME/.fehbg
-exec_always --no-startup-id "compton --config $HOME/.config/compton/compton.conf"
+# exec_always --no-startup-id "compton --config $HOME/.config/compton/compton.conf"
