@@ -1,12 +1,18 @@
 #!/bin/bash
 
-# Terminate any running bar instances
-killall -q polybar
+echo "Preparing to launch Polybar..."
 
-# Wait until completely terminated
+echo "Terminating any existing instances."
+killall -q polybar
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-# Lanch Polybar, using config in $HOME/.config/polybar/config
-polybar -c ~/.config/polybar/config.ini top &
-polybar -c ~/.config/polybar/config.ini bottom &
+echo "Launching Polybar."
+if type "xrandr"; then
+  for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
+    MONITOR=$m polybar --reload -c $HOME/.config/polybar/config.ini main &
+  done
+else
+  polybar -c $HOME/.config/polybar/config.ini main &
+fi
+
 echo "Polybar launched..."
