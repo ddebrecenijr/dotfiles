@@ -43,11 +43,13 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
+  hardware.bluetooth.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.dave = {
     description = "Dave Debreceni";
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; 
+    extraGroups = [ "wheel" "libvirtd" ]; 
     packages = with pkgs; [
       git
       vim
@@ -58,8 +60,35 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     firefox
-    gimp
+    pciutils
+    virt-manager
+    scream
+    looking-glass-client
   ];
+
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+      qemu.ovmf.enable = true;
+    };
+    spiceUSBRedirection.enable = true;
+  };
+
+  systemd.tmpfiles.rules = [
+    "f /dev/shm/scream 0660 dave qemu-libvirtd -"
+    "f /dev/shm/looking-glass 0660 dave qemu-libvirtd -"
+  ];
+  
+  systemd.user.services.scream-ivshmem = {
+    enable = true;
+    description = "Scream IVSHMEM";
+    serviceConfig = {
+      ExecStart = "${pkgs.scream}/bin/scream-ivshmem-pulse /dev/shm/scream";
+      Restart = "always";
+    };
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "pulseaudio.service" ];
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

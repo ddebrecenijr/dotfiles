@@ -10,8 +10,17 @@
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [ "kvm-amd" "amd_iommu=on" "iommu=pt" "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
   boot.extraModulePackages = [ ];
+  boot.blacklistedKernelModules = [ "amdgpu" "radeon" ];
+  boot.extraModprobeConfig = "options vfio-pci ids=1002:731f,1002:ab38";
+  boot.initrd.preDeviceCommands = ''
+    DEVS="0000:0e:00.0 0000:0e:00.1"
+    for DEV in $DEVS; do
+      echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
+    done
+    modprobe -i vfio-pci
+  '';
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/feb20cd4-eecc-4325-9985-bc030ae17cfe";
