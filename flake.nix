@@ -7,9 +7,10 @@
       url = "github:nix-community/home-manager/release-22.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = { nixpkgs, home-manager, ... }: 
+  outputs = { nixpkgs, home-manager, unstable, ... }: 
   let
     system = "x86_64-linux";
 
@@ -40,7 +41,17 @@
         inherit system;
  
         modules = [
-         ./system/configuration.nix
+          ./system/configuration.nix
+          ({ ... }: {
+            nixpkgs.overlays = [
+              (final: prev: {
+                unstable = import unstable {
+                  system = prev.system;
+                  config.allowUnfree = true;
+                };
+              })
+            ];
+          })
         ];
       };
     };

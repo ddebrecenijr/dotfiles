@@ -33,8 +33,10 @@
   services.xserver.videoDrivers = [ "nvidia" ];
 
   # Enable the Plasma 5 Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  #services.xserver.displayManager.sddm.enable = true;
+  #services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -44,12 +46,14 @@
   hardware.pulseaudio.enable = true;
 
   hardware.bluetooth.enable = true;
+  hardware.openrazer.enable = true;
+  hardware.openrazer.users = [ "dave" ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.dave = {
     description = "Dave Debreceni";
     isNormalUser = true;
-    extraGroups = [ "wheel" "libvirtd" ]; 
+    extraGroups = [ "wheel" "libvirtd" "plugdev" "openrazer"]; 
     packages = with pkgs; [
       git
       vim
@@ -64,7 +68,11 @@
     virt-manager
     scream
     looking-glass-client
+    gnomeExtensions.appindicator
+    unstable.polychromatic
   ];
+  
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   virtualisation = {
     libvirtd = {
