@@ -10,25 +10,30 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... }@inputs: rec {
-    legacyPackages = nixpkgs.lib.genAttrs [ "x86_64-linux" ] (system: 
-      import inputs.nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      }
-    );
+  outputs = { nixpkgs, home-manager, ... }@inputs: 
+    let
+      supportedSystems = [ "x86_64-linux" ];
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+    in
+    rec {
+      legacyPackages = forAllSystems (system: 
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        }
+      ); 
     
     nixosConfigurations = {
       balvenie = nixpkgs.lib.nixosSystem {
-        pkgs = legacyPackages.x86_64-linux;
+        pkgs = legacyPackages."x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [ ./nixos/configuration.nix ];
       };
     };
 
     homeConfigurations = {
-      dave = home-manager.lib.homeManagerConfiguration {
-        pkgs = legacyPackages.x86_64-linux;
+      "dave@balvenie" = home-manager.lib.homeManagerConfiguration {
+        pkgs = legacyPackages."x86_64-linux";
         extraSpecialArgs = { inherit inputs; };
         modules = [ ./home-manager/home.nix ];
       };

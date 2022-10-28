@@ -41,5 +41,5 @@
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   hardware.video.hidpi.enable = lib.mkDefault true;
 
-  nixpkgs.hostPlatform = "x86_64-linux";
+  nixpkgs.hostPlatform.system = "x86_64-linux";
 }

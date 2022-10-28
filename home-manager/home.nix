@@ -20,13 +20,13 @@
     alacritty
     vim
     
-    pciutils
-    virt-manager
-    scream
-    looking-glass-client
-    gnomeExtensions.appindicator
-    openrazer-daemon
-    polychromatic
+#    pciutils
+#    virt-manager
+#    scream
+#    looking-glass-client
+#    gnomeExtensions.appindicator
+#    openrazer-daemon
+#    polychromatic
   ];
 
   systemd.user.startServices = "sd-switch";
