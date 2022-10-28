@@ -18,12 +18,14 @@
   home.packages = with pkgs; [
     firefox
     alacritty
+    vim
     
     pciutils
     virt-manager
     scream
     looking-glass-client
     gnomeExtensions.appindicator
+    openrazer-daemon
     polychromatic
   ];
 

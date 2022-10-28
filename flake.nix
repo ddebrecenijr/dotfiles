@@ -27,7 +27,7 @@
     };
 
     homeConfigurations = {
-      "dave@balvenie" = home-manager.lib.homeManagerConfiguration {
+      dave = home-manager.lib.homeManagerConfiguration {
         pkgs = legacyPackages.x86_64-linux;
         extraSpecialArgs = { inherit inputs; };
         modules = [ ./home-manager/home.nix ];

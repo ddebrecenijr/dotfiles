@@ -17,7 +17,7 @@
   };
 
   boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchefiVariables = ture;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "balvenie";
   networking.networkmanager.enable = true;
@@ -26,7 +26,7 @@
 
   services.xserver = {
     enable = true;
-    displayManager.gmd.enable = ture;
+    displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
     videoDrivers = [ "nvidia" ];
   };
@@ -35,10 +35,10 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-  hardware.openrazer = {
-    enable = true;
-    users = [ "dave" ];
-  }; 
+#  hardware.openrazer = {
+#    enable = true;
+#    users = [ "dave" ];
+#  }; 
 
   users.users = {
     dave = {
