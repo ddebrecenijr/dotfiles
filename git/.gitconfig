@@ -1,0 +1,53 @@
+[user]
+    name = Dave Debreceni
+    email = davidjr@debreceni.net
+[alias]
+    empty = "git commit --allow-empty"
+    delete-local-merged = "!git fetch && git branch --merged | egrep -v 'main' | xargs git branch -d"
+    undo = reset --soft HEAD^
+    stash-all = stash push --include-untracked
+    co = checkout
+
+[branch]
+    sort = -committerdate
+[column]
+    ui = auto
+[commit]
+    verbose = true
+[core]
+    editor = nvim
+    excludesfile = ~/.gitignore
+    fsmonitor = true
+    hooksPath = /private/etc/git/
+    untrackedCache = true
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+[fetch]
+    prune = true
+    all = true
+[help]
+    autocorrect = prompt
+[init]
+    defaultBranch = main
+[merge]
+    conflictstyle = zdiff3
+[pull]
+    rebase = true
+[push]
+    default = current
+    autoSetupRemote = true
+[rebase]
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
+[rerere]
+    enabled = true
+    autoupdate = true
+[status]
+    short = true
+    showUntrackedFiles = all
+[tag]
+    sort = version:refname
